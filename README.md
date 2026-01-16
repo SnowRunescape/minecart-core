@@ -1,7 +1,5 @@
 # minecart-core
 
-> Core library for Minecart platform
-
 ## 🎯 Overview
 
 Minecart Core is a Java library designed to integrate game servers with the Minecart e-commerce platform. It provides a robust API for managing product deliveries, key redemptions, and cash transactions directly from your game server.
