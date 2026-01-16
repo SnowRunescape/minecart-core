@@ -38,7 +38,7 @@ public class MinecartAPI {
         JsonObject jsonObject = JsonParser.parseString(response.response).getAsJsonObject();
         JsonArray productsPlayer = jsonObject.getAsJsonArray("products");
 
-        ArrayList<Key> minecartKeys = new ArrayList<Key>();
+        ArrayList<Key> keys = new ArrayList<Key>();
 
         for (JsonElement product : productsPlayer) {
             JsonObject productObj = product.getAsJsonObject();
@@ -47,10 +47,10 @@ public class MinecartAPI {
             String key = productObj.get("key").getAsString();
             String productName = productObj.get("product_name").getAsString();
 
-            minecartKeys.add(new Key(id, productName, username, key, null, 0));
+            keys.add(new Key(id, productName, username, key, null, 0));
         }
 
-        return minecartKeys;
+        return keys;
     }
 
     public static Cash redeemCash(String username) throws HttpRequestException {
@@ -92,7 +92,7 @@ public class MinecartAPI {
     }
 
     public static ArrayList<Key> deliveryPending() throws HttpRequestException {
-        ArrayList<Key> minecartKeys = new ArrayList<Key>();
+        ArrayList<Key> keys = new ArrayList<Key>();
 
         HttpResponse response = HttpRequest.httpRequest(MinecartAPI.URL + "/shop/delivery/pending", null);
 
@@ -113,10 +113,10 @@ public class MinecartAPI {
             String[] commands = Utils.convertJsonArrayToStringArray(productObj.get("commands").getAsJsonArray());
             int deliveryAutomatic = productObj.get("delivery_automatic").getAsInt();
 
-            minecartKeys.add(new Key(id, productName, username, key, commands, deliveryAutomatic));
+            keys.add(new Key(id, productName, username, key, commands, deliveryAutomatic));
         }
 
-        return minecartKeys;
+        return keys;
     }
 
     public static boolean deliveryConfirm(int[] ids) {
