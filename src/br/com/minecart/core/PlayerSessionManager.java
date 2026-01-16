@@ -2,6 +2,7 @@ package br.com.minecart.core;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 public class PlayerSessionManager {
     private static final PlayerSessionManager INSTANCE = new PlayerSessionManager();
@@ -28,6 +29,16 @@ public class PlayerSessionManager {
 
     public Long getJoinTime(String username) {
         return this.playerJoinTimestamps.get(this.normalize(username));
+    }
+
+    public long getSessionDuration(String username) {
+        Long joinedAt = this.playerJoinTimestamps.get(this.normalize(username));
+
+        if (joinedAt == null) {
+            return 0;
+        }
+
+        return TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - joinedAt);
     }
 
     public boolean isInCooldown(String username, long delayMs) {
