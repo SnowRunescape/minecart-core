@@ -9,12 +9,12 @@ public class CommandFailureLogger {
     private static String logPath = "plugins/Minecart";
 
     public static void setLogPath(String path) {
-        logPath = path;
+        CommandFailureLogger.logPath = path;
     }
 
     public static void executeCommand(String command) {
         try {
-            FileWriter buffWrite = new FileWriter(logPath + "/error.log", true);
+            FileWriter buffWrite = new FileWriter(CommandFailureLogger.logPath + "/error.log", true);
 
             buffWrite.write("[" + CommandFailureLogger.date() + "] [ERROR] Ocorreu um erro ao executar o comando ( " + command + " )\n");
             buffWrite.close();
