@@ -11,6 +11,8 @@ import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import br.com.minecart.core.config.MinecartCoreConfig;
+
 public class HttpRequest {
     public static HttpResponse httpRequest(String Url, Map<String, String> params) throws HttpRequestException {
         String urlParameters = null;
@@ -25,10 +27,10 @@ public class HttpRequest {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", "Minecart");
             connection.setRequestProperty("Content-Type", "application/json");
-            connection.addRequestProperty("X-Game", "");
-            connection.addRequestProperty("Authorization", "");
-            connection.addRequestProperty("ShopServer", "");
-            connection.addRequestProperty("PluginVersion", "");
+            connection.addRequestProperty("X-Game", MinecartCoreConfig.game);
+            connection.addRequestProperty("Authorization", MinecartCoreConfig.authorization);
+            connection.addRequestProperty("ShopServer", MinecartCoreConfig.shopServer);
+            connection.addRequestProperty("PluginVersion", MinecartCoreConfig.version);
 
             connection.setUseCaches(false);
 
