@@ -31,11 +31,11 @@ public class PlayerSessionManager {
         return this.playerJoinTimestamps.get(this.normalize(username));
     }
 
-    public long getSessionDuration(String username) {
+    public Long getSessionDuration(String username) {
         Long joinedAt = this.playerJoinTimestamps.get(this.normalize(username));
 
         if (joinedAt == null) {
-            return 0;
+            return 0L;
         }
 
         return TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - joinedAt);
