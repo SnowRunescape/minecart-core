@@ -12,6 +12,7 @@ import com.google.gson.JsonParser;
 import br.com.minecart.core.MinecartAPI;
 import br.com.minecart.core.entities.Cash;
 import br.com.minecart.core.entities.Key;
+import br.com.minecart.core.entities.PurchasePlayer;
 import br.com.minecart.core.utilities.Utils;
 import br.com.minecart.core.utilities.http.HttpRequest;
 import br.com.minecart.core.utilities.http.HttpRequestException;
@@ -119,7 +120,9 @@ public class MinecartAPI {
         return keys;
     }
 
-    public static boolean deliveryConfirm(int[] ids) {
+    public static boolean deliveryConfirm(ArrayList<Key> keys) {
+        int[] ids = Utils.convertKeysToIdArray(keys);
+
         Map<String, String> params = new LinkedHashMap<String, String>();
 
         for (int i = 0; i < ids.length; i++) {
@@ -133,5 +136,28 @@ public class MinecartAPI {
         } catch (HttpRequestException e) {}
 
         return false;
+    }
+
+    public static ArrayList<PurchasePlayer> purchases() throws HttpRequestException
+    {
+        ArrayList<PurchasePlayer> minecartPlayers = new ArrayList<PurchasePlayer>();
+
+        HttpResponse response = HttpRequest.httpRequest(MinecartAPI.URL + "/shop/widgets/purchases", null);
+
+        if (response.responseCode != 200) {
+            throw new HttpRequestException(response);
+        }
+
+        JsonArray jsonObject = JsonParser.parseString(response.response).getAsJsonArray();
+
+        for (JsonElement product : jsonObject) {
+            JsonObject productObj = product.getAsJsonObject();
+            String player = productObj.get("buyer").getAsString();
+            String amount = productObj.get("amount").getAsString();
+
+            minecartPlayers.add(new PurchasePlayer(player, amount));
+        }
+
+        return minecartPlayers;
     }
 }
